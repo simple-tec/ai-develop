@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Web Page</title>
+    <style>
+        body{
+            display: flex;
+            flex-direction : column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            font-family: Arial, sans-serif;
+        }
+        #displayBox {
+            height: 200px;
+            width: 400px;
+            border: 1px solid black;
+            padding: 10px;
+            margin-top: 20px;
+            white-space: pre-wrap;
+        }
+    </style>
+</head>
+<body>
+    <input type="text" id="inputBox" placeholder="请输入文本">
+    <button onClick="sendData()">确认</button>
+    <div id="displayBox"></div>
+
+    <script>
+        async function sendData() {
+            let inputBox = document.getElementById("inputBox");
+            let displayBox = document.getElementById("displayBox");
+            
+            let payload = {question: inputBox.value};
+            
+            let response = await fetch('http://localhost:8989/api/ai', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify(payload)
+            });
+            
+            let data = await response.json();
+            displayBox.innerHTML = data.answer;
+        }
+    </script>
+
+</body>
+</html>
